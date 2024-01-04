@@ -1,0 +1,162 @@
+{% extends "layout.twig" %}
+
+{% block body %}
+	<div class="container mt-5">
+		<h1 class="mb-4">Welcome to your Dashborad
+			{{user.username}}</h1>
+		<nav class="mb-4">
+			<div class="nav nav-tabs" id="nav-tab" role="tablist">
+				<button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
+				<button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
+				<button class="nav-link" id="nav-Category-tab" data-bs-toggle="tab" data-bs-target="#nav-Category" type="button" role="tab" aria-controls="nav-Category" aria-selected="false">Category</button>
+				<button class="nav-link" id="nav-Article-tab" data-bs-toggle="tab" data-bs-target="#nav-Article" type="button" role="tab" aria-controls="nav-Article" aria-selected="false">Article</button>
+			</div>
+		</nav>
+		<div class="tab-content" id="nav-tabContent">
+			<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+				<h3>{{user.username}}</h3>
+				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries</p>
+			</div>
+			<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+				<h3 class="mb-3 mt-3">Profile</h3>
+				<form method="post" action="/users/save-profile" accept-charset="UTF-8">
+					<input
+					type="hidden" name="userId" value="{{ user._id }}">
+					<!-- 2 column grid layout with text inputs for the first and last names -->
+
+					<div class="form-outline mb-4 ">
+						<input type="text" class="form-control" name="username" value="{{ user.username }}"/>
+						<label class="form-label" for="form3Example1">User name</label>
+					</div>
+					<div class="form-outline mb-4">
+						<input type="text" class="form-control" name="firstname" value="{{ user.firstname }}"/>
+						<label class="form-label" for="form3Example2">First name</label>
+					</div>
+					<div class="form-outline mb-4">
+						<input type="text" class="form-control" name="lastname" value="{{ user.lastname }}"/>
+						<label class="form-label" for="form3Example2">Last name</label>
+					</div>
+					<!-- Email input -->
+					<div class="form-outline mb-4 ">
+						<input type="email" id="form3Example3" class="form-control" name="email" value="{{ user.email }}"/>
+						<label class="form-label" for="form3Example3">Email address</label>
+					</div>
+					<!-- Submit button -->
+					<button type="submit" class="btn btn-primary btn-block mb-4">Update profile</button>
+					<!-- Register buttons -->
+				</form>
+
+			</div>
+
+
+			<div class="tab-pane fade" id="nav-Category" role="tabpanel" aria-labelledby="nav-Category-tab" tabindex="0">
+				<h3 class="mb-3 mt-3">My category</h3>
+				{% if categories %}
+					<div>
+						<a href="/category/add-category" class="btn btn-primary mb-4">Add New category</a>
+					</div>
+					<div class="row category-list">
+						{% for category in categories %}
+							<div class="card col-md-6 col-lg-3 mb-4" style="width: 18rem;">
+								<div class="card-body">
+									<a href="/category/{{category._id}}"><img src="{{category.image}}" class="card-img-top" alt="{{category.image}}"></a>
+									<h5 class="card-title">{{category.title}}</h5>
+									{# <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> #}
+									<div class="">
+										<div class="btn-prim">
+											<a href="/article/{{category._id}}" class="btn btn-primary">En savoir plus</a>
+										</div>
+										<div class="btn-action">
+											<a href="/category/edit-category/{{category._id}}" class="btn btn-success mx-2">Modifier</a>
+											<button class="btn btn-danger mx-2" data-mdb-toggle="modal" data-mdb-target="#deleteCategoryModal">suprimer</button>
+										</div>
+										<!-- Modal -->
+										<div class="modal top fade" id="deleteCategoryModal" tabindex="-1" aria-labelledby="deleteCategoryModalLabel" aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h5 class="modal-title" id="deleteCategoryModalLabel">Confirm delete category</h5>
+														<button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close">concel</button>
+													</div>
+													<div class="modal-body">Are you sure you want to delete this category ?</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+															Close
+														</button>
+														<a href="/category/delete-category/{{category._id}}" type="button" class="btn btn-primary">Confirm</a>
+													</div>
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+				{% else %}
+					<p>Sorry, you don't have any category !
+					</p>
+					<a href="/category/add-category" class="btn btn-primary mt-2">Add Category</a>
+				{% endif %}
+			</div>
+
+
+			<div class="tab-pane fade" id="nav-Article" role="tabpanel" aria-labelledby="nav-Article-tab" tabindex="0">
+				<h3 class="mb-3 mt-3">My article</h3>
+				{% if articles %}
+					<div>
+						<a href="/add-article" class="btn btn-primary mb-4">Add New Article</a>
+					</div>
+					<div class="row category-list">
+						{% for article in articles %}
+							<div class="card card col-md-6 col-lg-3 mb-4" style="width: 18rem;">
+								<div class="card-body">
+									<img src="{{article.image}}" class="card-img-top" alt="{{article.image}}">
+									<h5 class="card-title">{{article.title}}</h5>
+									<div class="">
+										<div>
+											<a href="/article/{{article._id}}" class="btn btn-primary">En savoir plus</a>
+
+										</div>
+
+										<br/>
+										<div>
+											<a href="/edit-article/{{article._id}}" class="btn btn-success mx-2">Modifier</a>
+											<button class="btn btn-danger mx-2" data-mdb-toggle="modal" data-mdb-target="#deleteArticleModal">suprimer</button>
+										</div>
+										<!-- Modal -->
+										<div class="modal top fade" id="deleteArticleModal" tabindex="-1" aria-labelledby="deleteArticleModalLabel" aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h5 class="modal-title" id="deleteArticleModalLabel">Confirm delete article</h5>
+														<button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close">concel</button>
+													</div>
+													<div class="modal-body">Are you sure you want to delete this article ?</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+															Close
+														</button>
+														<a href="/delete-article/{{article._id}}" type="button" class="btn btn-primary">Confirm</a>
+													</div>
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+				{% else %}
+					<p>Sorry, you don't have any article !
+					</p>
+					<a href="/add-article" class="btn btn-primary mt-2">Add Article</a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+
+{% endblock %}

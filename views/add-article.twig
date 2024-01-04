@@ -1,0 +1,74 @@
+{% extends "layout.twig" %}
+
+{% block body %}
+	<div class="container mt-5">
+		<h1 class="text-center">Add your article!</h1>
+		{% if errorForm %}
+			<ul class="errors">
+				{% for error in errorForm %}
+					{% if error.title %}
+						<li class="error">{{error.title.message}}</li>
+					{% endif %}
+					{% if error.category %}
+						<li class="error">{{error.category.message}}</li>
+					{% endif %}
+					{% if error.content %}
+						<li class="error">
+							{{error.content.message}}</li>
+					{% endif %}
+					{% if error.image %}
+						<li class="error">{{error.image.message}}
+						</li>
+					{% endif %}
+				{% endfor %}
+			</ul>
+		{% endif %}
+
+		<form action="/add-article" enctype="multipart/form-data" method="POST">
+
+			<div class="form-outline mb-3">
+				<input type="text" class="form-control" name="title">
+				<label class="form-label" for="title">Title :
+				</label>
+			</div>
+			<div
+				class="form-outline mb-3">
+				{# <label for="outlinedSelect" class="form-label select-label">Select Option</label> #}
+				<select name="category" id="outlinedSelect" class="form-select" aria-label="Outlined select example">
+					<option>Select category</option>
+					<option value=""></option>
+					{% if categories %}
+						{% for category in categories %}
+							<option value="{{ category._id }}">{{ category.title }}</option>
+						{% endfor %}
+					{% endif %}
+				</select>
+
+				{# <label class="form-label" for="outlinedSelect">Category : </label> #}
+			</div>
+
+			<div
+				class="form-group mb-3">
+				{# <label for="">content : </label> #}
+				<textarea name="content" id="content" class="form-control" cols="30" rows="10" placeholder="description"></textarea>
+			</div>
+			<div
+				class="form-group mb-3">
+				{# <label  for="">Image : </label> #}
+				<input type="file" class="form-control" name="image" placeholder="select Image">
+
+			</div>
+			<button type="submit" class="btn btn-success mt-3">Add article</button>
+		</form>
+	</div>
+
+
+{% endblock %}
+{% block javascript %}
+	<script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
+	<script>
+		ClassicEditor.create(document.querySelector('#content')).catch(error => {
+console.error(error);
+});
+	</script>
+{% endblock %}

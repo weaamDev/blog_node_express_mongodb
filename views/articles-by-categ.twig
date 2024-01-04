@@ -1,0 +1,20 @@
+{% extends 'layout.twig' %}
+{% block body %}
+<div class="container mt-5">
+    {% if articles %}
+    <div class="row">
+      {% for article in articles %}
+        <div class="card col-md-3 m-2" style="width: 18rem;">
+          <img src="{{article.image}}" class="card-img-top" alt="{{article.image}}">
+          <div class="card-body">
+            <h5 class="card-title mt-3 mb-3">{{article.title}}</h5>
+            <a href="/article/{{article._id}}" class="btn btn-primary">En savoir plus</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+ 
+
+{% endblock %}

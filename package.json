@@ -1,0 +1,41 @@
+{
+  "name": "blog",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www -e *"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "connect-flash": "^0.1.1",
+    "connect-mongodb-session": "^3.1.1",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "express-validator": "^7.0.1",
+    "file-system": "^2.2.2",
+    "filename": "^0.5.0",
+    "http-errors": "~1.6.3",
+    "lsof": "^0.1.0",
+    "mongodb": "^6.2.0",
+    "mongoose": "^7.6.4",
+    "morgan": "~1.9.1",
+    "multer": "^1.4.5-lts.1",
+    "node-input-validator": "^4.5.1",
+    "nodemailer": "^6.9.7",
+    "nodemon": "^3.0.2",
+    "path": "^0.12.7",
+    "random-token": "^0.0.8",
+    "twig": "^0.10.3"
+  },
+  "main": "app.js",
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "font-awesome": "^4.7.0"
+  }
+}

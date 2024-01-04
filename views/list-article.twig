@@ -1,0 +1,37 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+	<div class="container">
+		<h1>{{title}}</h1>
+		<p>Welcome to
+			{{title}}</p>
+
+		{% if articles %}
+
+
+			<div class="row list-produit">
+				{% for article in articles %}
+					<div class="card col-md-6 col-lg-3 mb-4" style="width: 18rem;">
+
+						<div class="card-body">
+							<a href="/article/{{article._id}}"><img style="height: 250px;" src="{{article.image}}" alt="{{article.image}}"></a>
+							<h5 class="card-title">{{article.title}}</h5>
+							<p class="card-text">{{article.content}}</p>
+							{# <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> #}
+							<a href="/edit-article/{{article._id}}" class="btn btn-success">Edit
+							</a>
+							<a href="/delete-article/{{article._id}}" class="btn btn-danger">Delete
+							</a>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+			<a href="/add-article" class="btn btn-primary">Add Article</a>
+		{% else %}
+			<p>Sorry, you don't have any article !
+			</p>
+			<a href="/add-article" class="btn btn-primary">Add Article</a>
+		{% endif %}
+
+	</div>
+{% endblock %}
