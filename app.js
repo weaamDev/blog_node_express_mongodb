@@ -4,7 +4,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const bodyParser = require('body-parser')
-//const passport = require('passport')
 const mongoose = require('mongoose');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -30,25 +29,12 @@ var  Store  =  new  MongoDBStore ( {
 } ) ;
 
 app.use(session({
-  secret: process.env.SECRET, //pour renforcée la sécurité
+  secret: process.env.SECRET,
   store:Store,
   resave: true,
-  saveUninitialized: true, //est ce que vous voulez sauvegarder des info qui se trouve sur ordinateur que l'utilisateur que votre server n'a pas initialiser
+  saveUninitialized: true, 
   cookie: { secure: false, maxAge: 14400000 },
 }))
-
-for (let index = 0; index < 8; index++) {
-  // var article = new Article({
-  //   name: "La description En littérature"+index,
-  //   content: "La description (du latin descriptio) est la présentation de lieux, de personnages ou d'événements dans un récit. Sommaire. 1 En littérature"+index,
-  //   publishedAt: Date.now()
-  // })
-  
-//  article.save()
-//   .then(()=> console.log('sauvegard réussie'))
-//   .catch(()=> console.log('sauvegarder échouée'));
-}
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -61,57 +47,15 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 //Init flash
 
-// app.use(express.session({ cookie: { maxAge: 60000 }}));
-// app.use((req,res,next)=> {
-//   if(req.session.userId ) {
-//     Article.find({author : req.session.userId}) 
-//     .then((articles)=> {
-//       if(articles) {
-//         console.log(articles)
-//         req.session.articles = articles
-//         req.session.save()
-//       }
-//        else {
-//         console.log('add new')
-//        }
-     
-//     })  
-//     .catch(()=> {
-//       next()
-//     })
-//   }
-//   next()
-// })
 app.use(flash());
 app.use((req,res,next) => {
-  // if (req.user) {
-  //   console.log('tessst')
-  //   res.locals.user = req.user;
-  // }
   res.locals.error = req.flash('error');
   res.locals.success = req.flash('success');
   res.locals.errorForm = req.flash('errorForm');
-  // res.locals.errorFormArticle = req.flash('errorFormArticle');
   res.locals.errorFormCategory = req.flash('errorFormCategory');
   res.locals.warning = req.flash('warning');
   next()
 })
-
-// const isAuth = (req, res, next) => {
-//   if(req.user) {
-//     next();
-//   } else {
-//     res.redirect('/')
-//   }
-// }
-//Init Passport
-// app.use(passport.initialize());
-// app.use(passport.session());
-
-//passport local mongoose
-// passport.use(User.createStrategy());
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
